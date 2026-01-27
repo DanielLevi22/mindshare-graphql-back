@@ -7,9 +7,7 @@ import { signJwt } from "../utils/jwt";
 export class AuthService {
   async register(data: RegisterInput) {
     const exitingUser = await prismaClient.user.findUnique({
-      where: {
-        email: data.email,
-      },
+      where: { email: data.email },
     });
 
     if (exitingUser) {
@@ -30,22 +28,8 @@ export class AuthService {
   }
 
   generateTokens(user: User) {
-    const token = signJwt(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      "15m",
-    );
-
-    const refreshToken = signJwt(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      "1d",
-    );
-
+    const token = signJwt({ id: user.id, email: user.email }, "15m");
+    const refreshToken = signJwt({ id: user.id, email: user.email }, "1d");
     return { token, refreshToken, user };
   }
 }

@@ -1,6 +1,6 @@
 import { Arg, Query, Resolver } from "type-graphql";
 import { UserModel } from "../models/user.model";
-import type { UserService } from "../service/user.service";
+import { UserService } from "../service/user.service";
 
 @Resolver(() => UserModel)
 export class UserResolver {

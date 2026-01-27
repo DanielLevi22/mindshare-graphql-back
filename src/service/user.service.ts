@@ -1,5 +1,4 @@
 import { prismaClient } from "../../prisma/prisma";
-
 export class UserService {
   async finUser(id: string) {
     const user = await prismaClient.user.findUnique({
