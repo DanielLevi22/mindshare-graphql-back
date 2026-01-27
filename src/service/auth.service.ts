@@ -1,7 +1,7 @@
 import { prismaClient } from "../../prisma/prisma";
-import type { RegisterInput } from "../dtos/input/auth.input";
+import type { LoginInput, RegisterInput } from "../dtos/input/auth.input";
 import type { User } from "../generated/prisma/client";
-import { hashPassword } from "../utils/hash";
+import { comparePassword, hashPassword } from "../utils/hash";
 import { signJwt } from "../utils/jwt";
 
 export class AuthService {
@@ -31,5 +31,23 @@ export class AuthService {
     const token = signJwt({ id: user.id, email: user.email }, "15m");
     const refreshToken = signJwt({ id: user.id, email: user.email }, "1d");
     return { token, refreshToken, user };
+  }
+
+  async login(data: LoginInput) {
+    const exitingUser = await prismaClient.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (!exitingUser) {
+      throw new Error("Usuario nao cadastrado");
+    }
+
+    const compare = await comparePassword(data.password, exitingUser.password);
+
+    if (!compare) {
+      throw new Error("dados invalidados");
+    }
+
+    return this.generateTokens(exitingUser);
   }
 }

@@ -16,3 +16,8 @@ export const signJwt = (payload: JwtPayload, expiresIn?: string) => {
   }
   return jwt.sign(payload, secrete, options);
 };
+
+export const verifyJwt = (token: string) => {
+  const secret: Secret = process.env.JWT_SECRETE as unknown as Secret;
+  return jwt.verify(token, secret) as JwtPayload;
+};
