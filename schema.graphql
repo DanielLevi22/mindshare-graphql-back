@@ -49,6 +49,7 @@ type Mutation {
 
 type Query {
   getUser(id: String!): UserModel!
+  listIdeias: [IdeaModel!]!
 }
 
 input RegisterInput {

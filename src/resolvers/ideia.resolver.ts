@@ -2,6 +2,7 @@ import {
   Arg,
   FieldResolver,
   Mutation,
+  Query,
   Resolver,
   Root,
   UseMiddleware,
@@ -34,6 +35,11 @@ export class IdeaResolver {
     @Arg("id", () => String) id: string,
   ): Promise<IdeaModel> {
     return this.ideiaService.updateIdeia(data, id);
+  }
+
+  @Query(() => [IdeaModel])
+  async listIdeias(): Promise<IdeaModel[]> {
+    return this.ideiaService.listIdeias();
   }
 
   @FieldResolver(() => UserModel)
