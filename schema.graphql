@@ -41,6 +41,7 @@ type LoginOutput {
 
 type Mutation {
   CreateIdeia(data: CreateIdeiaInput!): IdeaModel!
+  DeleteIdeia(id: String!): IdeaModel!
   UpdateIdeia(data: UpdateIdeiaInput!, id: String!): IdeaModel!
   createUser(data: CreateUserInput!): UserModel!
   login(data: LoginInput!): LoginOutput!

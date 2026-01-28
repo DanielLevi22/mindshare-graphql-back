@@ -36,6 +36,11 @@ export class IdeaResolver {
   ): Promise<IdeaModel> {
     return this.ideiaService.updateIdeia(data, id);
   }
+  @Mutation(() => IdeaModel)
+  async DeleteIdeia(@Arg("id", () => String) id: string): Promise<boolean> {
+    await this.ideiaService.deleteIdeia(id);
+    return true;
+  }
 
   @Query(() => [IdeaModel])
   async listIdeias(): Promise<IdeaModel[]> {
