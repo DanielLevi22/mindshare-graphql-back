@@ -6,11 +6,14 @@ import { GqlUser } from "../graphql/decoratos/user.docorator";
 import type { User } from "../generated/prisma/client";
 import { IdeaModel } from "../models/ideia.model";
 import { IdeaService } from "../service/ideia.service";
+import { UserModel } from "../models/user.model";
+import { UserService } from "../service/user.service";
 
 @Resolver(() => CommentModel)
 export class CommentResolver {
   private commentService = new CommentService();
   private ideaService = new IdeaService();
+  private userService = new UserService();
   @Mutation(() => CommentModel)
   async CreateComment(
     @Arg("ideiaId", () => String) ideiaId: string,
@@ -23,5 +26,9 @@ export class CommentResolver {
   @FieldResolver(() => IdeaModel)
   async ideia(@Root() comment: CommentModel): Promise<IdeaModel> {
     return this.ideaService.findIdeiaById(comment.ideiaId);
+  }
+  @FieldResolver(() => UserModel)
+  async author(@Root() comment: CommentModel): Promise<UserModel> {
+    return await this.userService.finUser(comment.authorId);
   }
 }

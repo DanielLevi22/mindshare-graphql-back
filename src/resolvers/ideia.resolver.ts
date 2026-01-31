@@ -15,12 +15,15 @@ import type { User } from "../generated/prisma/client";
 import { IsAuth } from "../middlewares/auth.middleware";
 import { UserModel } from "../models/user.model";
 import { UserService } from "../service/user.service";
+import { CommentModel } from "../models/comment.model";
+import { CommentService } from "../service/comment.service";
 
 @Resolver(() => IdeaModel)
 @UseMiddleware(IsAuth)
 export class IdeaResolver {
   private ideiaService = new IdeaService();
   private userService = new UserService();
+  private commentService = new CommentService();
   @Mutation(() => IdeaModel)
   async CreateIdeia(
     @Arg("data", () => CreateIdeiaInput) data: CreateIdeiaInput,
@@ -50,5 +53,10 @@ export class IdeaResolver {
   @FieldResolver(() => UserModel)
   async author(@Root() ideia: IdeaModel): Promise<UserModel> {
     return await this.userService.finUser(ideia.authorId);
+  }
+
+  @FieldResolver(() => CommentModel)
+  async comments(@Root() ideia: IdeaModel): Promise<CommentModel[]> {
+    return await this.commentService.listByIdeia(ideia.id);
   }
 }
