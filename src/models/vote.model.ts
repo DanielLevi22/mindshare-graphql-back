@@ -13,9 +13,9 @@ export class VoteModel {
   @Field(() => String)
   ideiaId!: string;
 
-  @Field(() => UserModel)
-  user!: UserModel;
+  @Field(() => UserModel, { nullable: true })
+  user?: UserModel;
 
-  @Field(() => IdeaModel)
-  ideia!: UserModel;
+  @Field(() => IdeaModel, { nullable: true })
+  ideia?: UserModel;
 }
