@@ -15,11 +15,11 @@ export class CommentModel {
   @Field(() => String)
   ideiaId!: string;
 
-  @Field(() => UserModel)
-  author!: UserModel;
+  @Field(() => UserModel, { nullable: true })
+  author?: UserModel;
 
-  @Field(() => IdeaModel)
-  ideia!: UserModel;
+  @Field(() => IdeaModel, { nullable: true })
+  ideia?: UserModel;
 
   @Field(() => GraphQLISODateTime)
   createdAt!: Date;
